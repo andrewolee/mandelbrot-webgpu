@@ -39,12 +39,43 @@ async function main() {
 
   const canvas = document.getElementById("mandelbrot") as HTMLCanvasElement;
   const context = canvas.getContext("webgpu");
-  
+
   context?.configure({
     device: device,
     format: navigator.gpu.getPreferredCanvasFormat(),
-    alphaMode: "premultiplied"
+    alphaMode: "premultiplied",
   });
+
+  const vertices = new Float32Array([
+    0.0, 0.6, 0, 1, 1, 0, 0, 1, -0.5, -0.6, 0, 1, 0, 1, 0, 1, 0.5, -0.6, 0, 1,
+    0, 0, 1, 1,
+  ]);
+
+  const vertexBuffer = device.createBuffer({
+    size: vertices.byteLength,
+    usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
+  });
+  
+  device.queue.writeBuffer(vertexBuffer, 0, vertices, 0, vertices.length);
+  
+  const vertexBuffers = [
+    {
+      attributes: [
+        {
+          shaderLocation: 0,
+          offset: 0,
+          format: "float32x4"
+        },
+        {
+          shaderLocation: 1,
+          offest: 16,
+          format: "float32x4"
+        },
+      ],
+      arrayStride: 32,
+      stepMode: "vertex"
+    }
+  ];
 }
 
 main();
