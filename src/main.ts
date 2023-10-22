@@ -1,5 +1,5 @@
 import "./style.css";
-import vertexShader from "./shaders/vertexshader.wgsl?raw";
+import shader from "./shaders/shader.wgsl?raw";
 
 async function init() {
   if (!navigator.gpu) {
@@ -12,4 +12,8 @@ async function init() {
   }
 
   const device = await adapter.requestDevice();
+
+  const shaderModule = device.createShaderModule({
+    code: shader,
+  });
 }
