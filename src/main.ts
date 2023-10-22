@@ -10,4 +10,6 @@ async function init() {
   if (!adapter) {
     throw Error("Couldn't request WebGPU adapter!");
   }
+
+  const device = await adapter.requestDevice();
 }
