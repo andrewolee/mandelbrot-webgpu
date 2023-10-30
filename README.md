@@ -5,3 +5,7 @@
 1. Run `npm run dev`.
 
 1. Run `npm run build`.
+
+## Demo
+
+[web](https://andrewolee.github.io/mandelbrot-webgpu/)
