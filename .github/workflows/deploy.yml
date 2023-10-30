@@ -27,6 +27,8 @@ jobs:
         run: npm run build
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v2
+        with:
+          path: ./dist
   Deploy:
     environment:
       name: github-pages
