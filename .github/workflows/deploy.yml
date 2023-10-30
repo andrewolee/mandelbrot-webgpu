@@ -4,7 +4,6 @@ jobs:
   Deploy-Mandelbrot-WebGPU:
     runs-on: ubuntu-latest
     steps:
-      - name: Testing
       - run: echo "Test"
       - name: Checkout
         uses: actions/checkout@v4
