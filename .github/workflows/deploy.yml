@@ -1,12 +1,21 @@
 name: Deploy
-on: [push]
+
+on:
+  push:
+    branches:
+      - main
+
 jobs:
-  Deploy-Mandelbrot-WebGPU:
+  Deploy:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Test"
       - name: Checkout
         uses: actions/checkout@v4
-      - name: List
-        run: |
-          ls ${{ github.workspace }}
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build
+        run: npm run build
