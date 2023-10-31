@@ -15,5 +15,6 @@
   },
   "dependencies": {
     "@webgpu/types": "^0.1.38"
-  }
+  },
+  "prettier": {}
 }
