@@ -1,18 +1,17 @@
 import "./style.css";
 import shader from "./shaders/shader.wgsl?raw";
 
-async function init() {
-  if (!navigator.gpu) {
-    throw Error("WebGPU not supported!");
-  }
-
-  const adapter = await navigator.gpu.requestAdapter();
+async function getDevice(): Promise<GPUDevice> {
+  const adapter = await navigator.gpu?.requestAdapter();
   if (!adapter) {
-    throw Error("Couldn't request WebGPU adapter!");
+    throw Error("Your browser does not support WebGPU!");
   }
 
-  const device = await adapter.requestDevice();
+  return adapter.requestDevice();
+}
 
+async function main() {
+  const device = await getDevice();
   const shaderModule = device.createShaderModule({
     code: shader,
   });
@@ -26,7 +25,6 @@ async function init() {
   context.configure({
     device: device,
     format: navigator.gpu.getPreferredCanvasFormat(),
-    alphaMode: "premultiplied",
   });
 
   const vertices = new Float32Array([
@@ -103,10 +101,9 @@ async function init() {
   passEncoder.setPipeline(renderPipeline);
   passEncoder.setVertexBuffer(0, vertexBuffer);
   passEncoder.draw(3);
-
   passEncoder.end();
 
   device.queue.submit([commandEncoder.finish()]);
 }
 
-init();
+main();
